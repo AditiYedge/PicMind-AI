@@ -14,7 +14,7 @@ export const navLinks = [
     route: "/transformations/add/fill",
     icon: "/assets/icons/stars.svg",
   },
-  { 
+  {
     label: "Object Remove",
     route: "/transformations/add/remove",
     icon: "/assets/icons/scan.svg",
