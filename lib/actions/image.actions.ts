@@ -9,10 +9,36 @@ import { redirect } from "next/navigation";
 
 import { v2 as cloudinary } from 'cloudinary'
 
-const populateUser = (query: any) => query.populate({
+
+//cloudinary.config({
+  //cloud_name: process.env.CLOUDINARY_CLOUD_NAME,   // ✅ FIXED
+  //api_key: process.env.CLOUDINARY_API_KEY,         // ✅ FIXED
+  //api_secret: process.env.CLOUDINARY_SECRET_KEY,  // ✅ FIXED
+  //secure: true,
+//});
+
+
+cloudinary.config({
+      cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+     api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+      secure: true,
+    })
+
+// ✅ DEBUG (REMOVE LATER)
+console.log("✅ CLOUDINARY CONFIG:", {
+ cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY ? "OK" : "MISSING",
+  api_secret: process.env.CLOUDINARY_API_SECRET ? "OK" : "MISSING",
+});
+
+const populateUser = (query: any) =>
+  query.populate({
   path: "author",
     model: User,
-    select: "_id firstName lastName clerkId",
+    //select: "_id firstName lastName clerkId",
+        select: "_id firstName lastName ",
+
   });
 
 // ADD IMAGE
@@ -36,6 +62,8 @@ export async function addImage({ image, userId, path }: AddImageParams) {
     return JSON.parse(JSON.stringify(newImage));
   } catch (error) {
     handleError(error)
+     return null; // ✅ SAFE RETURN
+
   }
 }
 
@@ -60,7 +88,8 @@ export async function updateImage({ image, userId, path }: UpdateImageParams) {
 
     return JSON.parse(JSON.stringify(updatedImage));
   } catch (error) {
-    handleError(error)
+    handleError(error);
+    return null;
   }
 }
 
@@ -71,9 +100,9 @@ export async function deleteImage(imageId: string) {
 
     await Image.findByIdAndDelete(imageId);
   } catch (error) {
-    handleError(error)
+    handleError(error);
   } finally{
-    redirect('/')
+    redirect('/');
   }
 }
 
@@ -88,7 +117,8 @@ export async function getImageById(imageId: string) {
 
     return JSON.parse(JSON.stringify(image));
   } catch (error) {
-    handleError(error)
+    handleError(error);
+    return null;
   }
 }
 
@@ -101,12 +131,12 @@ export async function getAllImages({ limit = 9, page = 1, searchQuery = '' }: {
   try {
     await connectToDatabase();
 
-    cloudinary.config({
-      cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET,
-      secure: true,
-    })
+    //cloudinary.config({
+      //cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+      //api_key: process.env.CLOUDINARY_API_KEY,
+      //api_secret: process.env.CLOUDINARY_API_SECRET,
+      //secure: true,
+    //})
 
     let expression = 'folder=PicMind-AI';
 
