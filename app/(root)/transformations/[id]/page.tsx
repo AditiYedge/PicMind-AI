@@ -1,5 +1,4 @@
-
-//import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,20 +8,15 @@ import { Button } from "@/components/ui/button";
 import { getImageById } from "@/lib/actions/image.actions";
 import { getImageSize } from "@/lib/utils";
 import { DeleteConfirmation } from "@/components/shared/DeleteConfirmation";
-import { auth } from "@clerk/nextjs/server";
-import { notFound } from "next/navigation";
 
-const ImageDetails = async ({ params }: SearchParamProps) => {
-  const { id } = await params;
-  const { userId } =await auth();
+const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
+  const { userId } = auth();
 
   const image = await getImageById(id);
 
-  if (!image) return notFound();
-
   return (
     <>
-      <Header title={image?.title ?? "Image Not Found"} />
+      <Header title={image.title} />
 
       <section className="mt-5 flex flex-wrap gap-4">
         <div className="p-14-medium md:p-16-medium flex gap-2">

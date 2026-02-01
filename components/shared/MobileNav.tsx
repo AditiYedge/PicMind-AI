@@ -1,6 +1,6 @@
 "use client"
 
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { navLinks } from "@/constants"
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 import Image from "next/image"
@@ -15,7 +15,7 @@ const MobileNav = () => {
     <header className="header">
       <Link href="/" className="flex items-center gap-2 md:py-2">
         <Image
-          src="/assets/images/logo-text.svg"
+          src="/assets/images/logo11.png"
           alt="logo"
           width={180}
           height={28}
@@ -24,7 +24,7 @@ const MobileNav = () => {
 
       <nav className="flex gap-2">
         <SignedIn>
-         {/* <UserButton afterSignOutUrl="/" />*/}
+          <UserButton afterSignOutUrl="/" />
 
           <Sheet>
             <SheetTrigger>
@@ -37,10 +37,9 @@ const MobileNav = () => {
               />
             </SheetTrigger>
             <SheetContent className="sheet-content sm:w-64">
-              <SheetTitle></SheetTitle>
               <>
                 <Image 
-                  src="/assets/images/logo-text.svg"
+                  src="/assets/images/logo11.png"
                   alt="logo"
                   width={152}
                   height={23}
